@@ -1,29 +1,27 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 from subprocess import Popen, PIPE
 import os
 
+os.system('mkdir -p converted_videos')
+
+def split_secs(seconds):
+	return seconds/3600, (seconds%3600)/60, seconds%60
+    
 def srt_create(input_file):
         """Creates a subtitles file after getting duration of video."""
-        stdout = Popen('ffmpeg -i %s 2>&1  |grep Duration|cut -d , -f 1|cut -d : -f 3-4|cut -d . -f 1' %input_file, shell=True, stdout=PIPE).stdout
-            
+        stdout = Popen('ffmpeg -i %s 2>&1  |grep Duration|cut -d , -f 1|cut -d : -f 2-4|cut -d . -f 1' %input_file, shell=True, stdout=PIPE).stdout
+
 	#get the pipe output in the form min:sec
         output = stdout.read()
             
         #store output in an array
         duration=[]
         duration = output.strip().split(":")
-        mins = duration[0]
-        secs = duration[1]
-            
-	#convert string to integer
-        int_mins=int(mins)  
-        int_secs=int(secs) 
+	hrs, mins, secs = [int(i) for i in duration]
+
 	#length of the video in seconds
-        total_secs=int_mins*60 + int_secs
+        total_secs = hrs*3600 + mins*60 + secs
                 
-        def split_secs(seconds):
-                 return seconds/3600, (seconds%3600)/60, seconds%60
-    
 	# No. of seconds to show the text on the video
 	gap = 5
             
@@ -39,12 +37,11 @@ def srt_create(input_file):
 	f.close()
 	return  
 
-     
- 
     
 def rendering_text(input_file, output_file):
-         stdout = Popen('mencoder %s -sub 2.srt -o converted_videos/%s -oac copy -ovc lavc -lavcopts vbitrate=1200' % (input_file , output_file) , shell=True, stdout=PIPE).stdout
-     print "\nConverting %s to %s " %(input_file,output_file)
+     stdout = Popen('mencoder %s -sub 2.srt -o converted_videos/%s -oac copy -ovc lavc -lavcopts vbitrate=1200' % (input_file , output_file) , shell=True, stdout=PIPE).stdout
+ 
+     print "Converting %s to %s " %(input_file,output_file)
      stdout.read()
      return 
 
@@ -56,9 +53,11 @@ video_files = stdout.read()
 
 #store output in an array
 video_files = video_files.split()
+#print "Converting %d file(s)." %len(video_files)
 
-for input_file in video_files:
+for i, input_file in enumerate(video_files):
         output_file = '%s_%s' %('subs', input_file)
+	print "Converting %d of %d file(s)..." %(i+1, len(video_files))
         srt_create(input_file) 
         rendering_text(input_file, output_file)
         

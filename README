@@ -4,10 +4,6 @@ The default script adds texts at start & end of the video.
 
 Put this script in a folder containing video files(*.avi).
 
-Create a folder 'converted_videos' in the same directory.
-
-Edit the 'srt' file for the text you want to display.
-
 The default initial time to display the text is 2 to 9 sec.You 
 have to manually edit 'srt' to change the default initial time.
 
@@ -15,9 +11,11 @@ The end time is calcualated by the script and the text in the
 second line in the 'srt' is displayed on the video. 
 
 The script can be easily understood & can be modified to
-convert multiple videos into different formats by changing
+convert multiple videos into different formats by changing command
 'mencoder %s -sub 2.srt -o converted_videos/%s -oac copy -ovc lavc -lavcopts vbitrate=1200'
 
+The script can also be modified to support other video formats.For more
+details look for 'Mencoder' help.
 
 Command to run:
 python Auto_Videos_subs.py
@@ -28,6 +26,9 @@ python Auto_Videos_subs.py
 Written By
 Puneeth Chaganti & Srikant Patnaik
 
+for 'FOSSEE' Project
+https://github.com/FOSSEE
+fossee.in
 
 
 

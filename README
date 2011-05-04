@@ -14,6 +14,16 @@ The script can be easily understood & can be modified to
 convert multiple videos into different formats by changing command
 'mencoder %s -sub 2.srt -o converted_videos/%s -oac copy -ovc lavc -lavcopts vbitrate=1200'
 
+To modify the size of fonts add "-subfont-text-scale 3" at the end
+of the command in python script.(here 3 is the font size).
+
+To modify the position of subtitle add "--subpos 50" at the end
+of the command.(here 50 means center of screen).
+
+For example :
+"mencoder %s -subpos 85 -sub 2.srt -o converted_videos/%s -oac copy -ovc lavc -lavcopts vbitrate=1200 -subfont-text-scale 3"
+
+
 The script can also be modified to support other video formats.For more
 details look for 'Mencoder' help.
 

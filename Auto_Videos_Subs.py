@@ -39,7 +39,7 @@ def srt_create(input_file):
 
     
 def rendering_text(input_file, output_file):
-     stdout = Popen('mencoder %s -sub 2.srt -o converted_videos/%s -oac copy -ovc lavc -lavcopts vbitrate=1200' % (input_file , output_file) , shell=True, stdout=PIPE).stdout
+     stdout = Popen('mencoder %s -subpos 85 -sub 2.srt -o converted_videos/%s -oac copy -ovc lavc -lavcopts vbitrate=1200 -subfont-text-scale 3' % (input_file , output_file) , shell=True, stdout=PIPE).stdout
  
      print "Converting %s to %s " %(input_file,output_file)
      stdout.read()
